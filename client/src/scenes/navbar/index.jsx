@@ -60,7 +60,7 @@ const Navbar = () => {
             },
           }}
         >
-          Sociopedia
+          Social Hive
         </Typography>
         {isNonMobileScreens && (
           <FlexBetween

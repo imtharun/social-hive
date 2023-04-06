@@ -15,7 +15,7 @@ const LoginPage = () => {
         color="primary"
       >
         <Typography fontWeight="bold" fontSize="32px" color="primary">
-          Sociopedia
+          Social Hive
         </Typography>
       </Box>
       <Box
@@ -25,8 +25,13 @@ const LoginPage = () => {
         borderRadius="1.5rem"
         backgroundColor={theme.palette.background.alt}
       >
-        <Typography fontWeight="500" variant="h5" sx={{ mb: "1.5rem" }}>
-          Welcome to Socipedia, the Social Media for Sociopaths!
+        <Typography
+          fontWeight="500"
+          textAlign={"center"}
+          variant="h5"
+          sx={{ mb: "1.5rem" }}
+        >
+          Welcome to Social Hive 👋, the Social Media for Sociopaths!
         </Typography>
         <Form />
       </Box>
