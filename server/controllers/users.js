@@ -29,8 +29,10 @@ export const getUserFriends = async (req, res) => {
     );
 
     res.status(200).json(formattedFriends);
+    return;
   } catch (error) {
     res.status(404).json({ message: error.message });
+    return;
   }
 };
 
@@ -39,8 +41,12 @@ export const addRemoveFriend = async (req, res) => {
   try {
     const { id, friendId } = req.params;
 
+    console.log(id, friendId, "id, friendId");
+
     const user = await User.findById(id);
     const friend = await User.findById(friendId);
+
+    console.log(user, friend, "user, friend");
 
     if (user.friends.includes(friendId)) {
       user.friends = user.friends.filter((id) => id !== friendId);
@@ -54,7 +60,9 @@ export const addRemoveFriend = async (req, res) => {
     await user.save();
     await friend.save();
 
-    const friends = user.friends.map((fId) => User.findById(fId));
+    const friends = await Promise.all(
+      user.friends.map((fId) => User.findById(fId))
+    );
 
     const formattedFriends = friends.map(
       ({ _id, firstName, lastName, location, occupation, picturePath }) => {
@@ -70,7 +78,9 @@ export const addRemoveFriend = async (req, res) => {
     );
 
     res.status(200).json(formattedFriends);
+    return;
   } catch (error) {
-    res.json(404).json({ message: error.message });
+    res.status(404).json({ message: error.message });
+    return;
   }
 };
