@@ -16,6 +16,7 @@ import { setLogin } from "state";
 import Dropzone from "react-dropzone";
 import FlexBetween from "components/FlexBetween";
 import { red } from "@mui/material/colors";
+import { ElevatorSharp } from "@mui/icons-material";
 
 const registerSchema = yup.object().shape({
   firstName: yup.string().required("required"),
@@ -65,47 +66,60 @@ const Form = () => {
     }
 
     formData.append("picturePath", values.picture.name);
-    const savedUserResponse = await fetch(
-      "http://localhost:5000/auth/register",
-      {
-        method: "POST",
-        body: formData,
+
+    try {
+      const savedUserResponse = await fetch(
+        "http://localhost:5000/auth/register",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      if (savedUserResponse.status === 201) {
+        const savedUser = await savedUserResponse.json();
+        onSubmitProps.resetForm();
+
+        if (savedUser) {
+          setPageType("login");
+        }
+      } else {
+        throw new Error("invalid credentials");
       }
-    );
-
-    const savedUser = await savedUserResponse.json();
-    onSubmitProps.resetForm();
-
-    if (savedUser) {
-      setPageType("login");
+    } catch (error) {
+      console.log(error);
     }
   };
 
   const login = async (values, onSubmitProps) => {
-    const loggedInResponse = await fetch("http://localhost:5000/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(values),
-    });
+    try {
+      const loggedInResponse = await fetch("http://localhost:5000/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
 
-    if (loggedInResponse.status === 400) {
-      setIsInvalid(true);
-      return;
-    }
+      if (loggedInResponse.status === 200) {
+        const loggedIn = await loggedInResponse.json();
 
-    if (loggedInResponse.status === 200) {
-      const loggedIn = await loggedInResponse.json();
-
-      if (loggedIn) {
-        dispatch(
-          setLogin({
-            user: loggedIn.user,
-            token: loggedIn.token,
-          })
-        );
-
-        navigate("/home");
+        if (loggedIn) {
+          dispatch(
+            setLogin({
+              user: loggedIn.user,
+              token: loggedIn.token,
+            })
+          );
+          setIsInvalid(false);
+          navigate("/home");
+        }
       }
+
+      if (loggedInResponse.status === 400) {
+        setIsInvalid(true);
+        throw new Error("invalid credentials");
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 

@@ -33,8 +33,12 @@ const PostsWidget = ({ userId, isProfile = false }) => {
         },
       });
 
-      const data = await response.json();
-      dispatch(setPosts({ posts: data }));
+      if (response.status === 200) {
+        const data = await response.json();
+        dispatch(setPosts({ posts: data }));
+      } else {
+        throw new Error(response.message);
+      }
     } catch (error) {
       console.log(error);
     }

@@ -12,27 +12,32 @@ const FriendListWidget = ({ userId }) => {
   const friends = useSelector((state) => state.user.friends);
 
   const getFriends = async () => {
-    const response = await fetch(
-      `http://localhost:5000/users/${userId}/friends`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+    try {
+      const response = await fetch(
+        `http://localhost:5000/users/${userId}/friends`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        const data = await response.json();
+        dispatch(setFriends({ friends: data }));
+      } else {
+        throw new Error(response.message);
       }
-    );
-
-    const data = await response.json();
-    if (response.status === 404) return console.log("No friends found");
-
-    dispatch(setFriends({ friends: data }));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
     getFriends();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
 
   return (
     <WidgetWrapper>

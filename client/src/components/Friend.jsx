@@ -20,8 +20,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
   const main = palette.neutral.main;
   const medium = palette.neutral.medium;
 
-  const isFriend = true;
-  // friends.find((friend) => friend._id === friendId);
+  const isFriend = friends.find((friend) => friend._id === friendId);
 
   const patchFriend = async () => {
     try {
@@ -36,11 +35,13 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
         }
       );
 
-      console.log(response, "response");
-
-      const data = await response.json();
-      if (data !== 404) {
+      if (response.status === 200) {
+        const data = await response.json();
         dispatch(setFriends({ friends: data }));
+      }
+
+      if (response.status === 400) {
+        throw new Error(response.message);
       }
     } catch (error) {
       console.log(error);

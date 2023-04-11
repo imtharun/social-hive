@@ -15,15 +15,22 @@ const ProfilePage = () => {
   const token = useSelector((state) => state.token);
 
   const getUser = async () => {
-    const response = await fetch(`http://localhost:5000/users/${userId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    try {
+      const response = await fetch(`http://localhost:5000/users/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    const data = await response.json();
-
-    setUser(data);
+      if (response.state === 200) {
+        const data = await response.json();
+        setUser(data);
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
