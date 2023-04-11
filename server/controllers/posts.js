@@ -19,7 +19,7 @@ export const createPost = async (req, res) => {
       comment: [],
     });
 
-    await newPost().save();
+    await newPost.save();
 
     const post = await Post.find();
 

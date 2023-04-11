@@ -17,7 +17,6 @@ const PostsWidget = ({ userId, isProfile = false }) => {
         },
       });
 
-      // console.log("no error");
       const data = await response.json();
       dispatch(setPosts({ posts: data }));
     } catch (error) {
@@ -34,8 +33,6 @@ const PostsWidget = ({ userId, isProfile = false }) => {
         },
       });
 
-      // console.log("no error");
-
       const data = await response.json();
       dispatch(setPosts({ posts: data }));
     } catch (error) {
@@ -45,20 +42,16 @@ const PostsWidget = ({ userId, isProfile = false }) => {
 
   useEffect(() => {
     if (isProfile) {
-      // console.log("user posts");
       getUserPosts();
     } else {
-      // console.log("user posts ");
-
       getPosts();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // console.log(posts);
 
   return (
     <>
-      {posts.message !== "connect ETIMEDOUT 34.197.224.93:27017" &&
+      {posts.message !== "newPost is not a function" &&
         posts?.map(
           ({
             _id,

@@ -23,6 +23,7 @@ const FriendListWidget = ({ userId }) => {
     );
 
     const data = await response.json();
+    if (response.status === 404) return console.log("No friends found");
 
     dispatch(setFriends({ friends: data }));
   };
@@ -31,6 +32,7 @@ const FriendListWidget = ({ userId }) => {
     getFriends();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
 
   return (
     <WidgetWrapper>

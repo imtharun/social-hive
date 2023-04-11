@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { setLogin } from "state";
 import Dropzone from "react-dropzone";
 import FlexBetween from "components/FlexBetween";
+import { red } from "@mui/material/colors";
 
 const registerSchema = yup.object().shape({
   firstName: yup.string().required("required"),
@@ -47,6 +48,7 @@ const initialValuesLogin = {
 };
 
 const Form = () => {
+  const [isInvalid, setIsInvalid] = useState(false);
   const [pageType, setPageType] = useState("login");
   const { palette } = useTheme();
   const dispatch = useDispatch();
@@ -86,17 +88,24 @@ const Form = () => {
       body: JSON.stringify(values),
     });
 
-    const loggedIn = await loggedInResponse.json();
+    if (loggedInResponse.status === 400) {
+      setIsInvalid(true);
+      return;
+    }
 
-    if (loggedIn) {
-      dispatch(
-        setLogin({
-          user: loggedIn.user,
-          token: loggedIn.token,
-        })
-      );
+    if (loggedInResponse.status === 200) {
+      const loggedIn = await loggedInResponse.json();
 
-      navigate("/home");
+      if (loggedIn) {
+        dispatch(
+          setLogin({
+            user: loggedIn.user,
+            token: loggedIn.token,
+          })
+        );
+
+        navigate("/home");
+      }
     }
   };
 
@@ -104,7 +113,7 @@ const Form = () => {
     if (isLogin) await login(values, onSubmitProps);
     if (isRegister) await register(values, onSubmitProps);
   };
-
+  const redColor = red[500];
   return (
     <Formik
       onSubmit={handleFormSubmit}
@@ -250,11 +259,16 @@ const Form = () => {
           </Box>
           {/* Buttons */}
           <Box>
+            {isInvalid && (
+              <Typography sx={{ my: "1rem" }} color={redColor}>
+                Invalid Credentials! Please Check your email and password.
+              </Typography>
+            )}
             <Button
               fullWidth
               type="submit"
               sx={{
-                m: "2rem 0",
+                m: `${isInvalid ? "0 0 1rem 0" : "1rem 0rem"}`,
                 p: "1rem",
                 backgroundColor: palette.primary.main,
                 color: palette.background.alt,

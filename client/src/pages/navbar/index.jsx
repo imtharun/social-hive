@@ -153,22 +153,70 @@ const Navbar = () => {
             flexDirection="column"
             justifyContent="center"
             alignItems="center"
-            gap="3rem"
+            gap="1rem"
           >
-            <IconButton
-              onClick={() => dispatch(setMode())}
-              sx={{ fontSize: "25px" }}
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+              width="11rem"
             >
-              {theme.palette === "dark" ? (
-                <DarkMode sx={{ fontSize: "25px" }} />
-              ) : (
-                <LightMode sx={{ color: dark, fontSize: "25px" }} />
-              )}
-            </IconButton>
-            <Message sx={{ fontSize: "25px" }} />
-            <Notifications sx={{ fontSize: "25px" }} />
-            <Help sx={{ fontSize: "25px" }} />
-            <FormControl variant="standard" value={fullName}>
+              <IconButton
+                onClick={() => dispatch(setMode())}
+                sx={{ fontSize: "25px", mr: "1rem" }}
+              >
+                {theme.palette === "dark" ? (
+                  <DarkMode sx={{ fontSize: "25px" }} />
+                ) : (
+                  <LightMode sx={{ color: dark, fontSize: "25px" }} />
+                )}
+              </IconButton>
+              <Typography
+                variant="h6"
+                sx={{
+                  cursor: "pointer",
+                  "&:hover": {
+                    textDecoration: "underline",
+                  },
+                }}
+                onClick={() => dispatch(setMode())}
+              >
+                Change Theme
+              </Typography>
+            </Box>
+
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+              width="10rem"
+            >
+              <Message sx={{ fontSize: "25px", mr: "1rem" }} />
+              <Typography variant="h6">Message</Typography>
+            </Box>
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+              width="10rem"
+            >
+              <Notifications sx={{ fontSize: "25px", mr: "1rem" }} />
+              <Typography variant="h6">Notification</Typography>
+            </Box>
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+              width="10rem"
+            >
+              <Help sx={{ fontSize: "25px", mr: "1rem" }} />
+              <Typography variant="h6">Help</Typography>
+            </Box>
+            <FormControl
+              sx={{ mt: "1rem" }}
+              variant="standard"
+              value={fullName}
+            >
               <Select
                 value={fullName}
                 sx={{
