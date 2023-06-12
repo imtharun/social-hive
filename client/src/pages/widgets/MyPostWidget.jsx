@@ -48,11 +48,14 @@ const MyPostWidget = ({ picturePath }) => {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/posts/createPost", {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
-        body: formData,
-      });
+      const response = await fetch(
+        "https://social-hive.onrender.com/posts/createPost",
+        {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` },
+          body: formData,
+        }
+      );
       if (response.status === 201) {
         const posts = await response.json();
 

@@ -16,7 +16,6 @@ import { setLogin } from "state";
 import Dropzone from "react-dropzone";
 import FlexBetween from "components/FlexBetween";
 import { red } from "@mui/material/colors";
-import { ElevatorSharp } from "@mui/icons-material";
 
 const registerSchema = yup.object().shape({
   firstName: yup.string().required("required"),
@@ -69,7 +68,7 @@ const Form = () => {
 
     try {
       const savedUserResponse = await fetch(
-        "http://localhost:5000/auth/register",
+        "https://social-hive.onrender.com/auth/register",
         {
           method: "POST",
           body: formData,
@@ -84,7 +83,7 @@ const Form = () => {
           setPageType("login");
         }
       } else {
-        throw new Error("invalid credentials");
+        throw new Error(savedUserResponse.message);
       }
     } catch (error) {
       console.log(error);
@@ -93,11 +92,14 @@ const Form = () => {
 
   const login = async (values, onSubmitProps) => {
     try {
-      const loggedInResponse = await fetch("http://localhost:5000/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
-      });
+      const loggedInResponse = await fetch(
+        "https://social-hive.onrender.com/auth/login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(values),
+        }
+      );
 
       if (loggedInResponse.status === 200) {
         const loggedIn = await loggedInResponse.json();

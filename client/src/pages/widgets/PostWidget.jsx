@@ -37,7 +37,7 @@ const PostWidget = ({
   const patchLike = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/posts/${postId}/like`,
+        `https://social-hive.onrender.com/posts/${postId}/like`,
         {
           method: "PATCH",
           headers: {
@@ -80,7 +80,7 @@ const PostWidget = ({
           height="auto"
           alt="post"
           style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-          src={`http://localhost:5000/assets/${picturePath}`}
+          src={`https://social-hive.onrender.com/assets/${picturePath}`}
         />
       )}
       <FlexBetween mt="0.25rem">
@@ -116,8 +116,8 @@ const PostWidget = ({
               <Typography
                 sx={{
                   color: main,
-                  mt: "0.5rem 0",
-                  pl: "1rem",
+                  mt: "1rem",
+                  p: "0.5rem",
                 }}
               >
                 {comment}

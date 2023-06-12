@@ -14,7 +14,7 @@ const FriendListWidget = ({ userId }) => {
   const getFriends = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/users/${userId}/friends`,
+        `https://social-hive.onrender.com/users/${userId}/friends`,
         {
           method: "GET",
           headers: {

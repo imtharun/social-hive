@@ -10,7 +10,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
 
   const getPosts = async () => {
     try {
-      const response = await fetch("http://localhost:5000/posts", {
+      const response = await fetch("https://social-hive.onrender.com/posts", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -26,12 +26,15 @@ const PostsWidget = ({ userId, isProfile = false }) => {
 
   const getUserPosts = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/posts/${userId}`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(
+        `https://social-hive.onrender.com/posts/${userId}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (response.status === 200) {
         const data = await response.json();

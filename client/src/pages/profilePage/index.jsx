@@ -16,11 +16,14 @@ const ProfilePage = () => {
 
   const getUser = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/users/${userId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(
+        `https://social-hive.onrender.com/users/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (response.state === 200) {
         const data = await response.json();
