@@ -25,6 +25,8 @@ const ProfilePage = () => {
         }
       );
 
+      console.log(response);
+
       if (response.state === 200) {
         const data = await response.json();
         setUser(data);
