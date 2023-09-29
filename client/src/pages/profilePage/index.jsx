@@ -25,10 +25,9 @@ const ProfilePage = () => {
         }
       );
 
-      console.log(response);
+      const data = await response.json();
 
-      if (response.state === 200) {
-        const data = await response.json();
+      if (response.status === 200) {
         setUser(data);
       } else {
         throw new Error(response.message);
